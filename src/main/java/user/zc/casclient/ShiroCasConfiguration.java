@@ -1,6 +1,6 @@
 package user.zc.casclient;
 
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;

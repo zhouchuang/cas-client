@@ -1,0 +1,52 @@
+server:
+  port: 8090
+
+spring:
+  profiles: dev
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.98.158.112:3306/cas-server?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: hnyskjijobaliyun
+    password: 0NUeIgHq47IywCgl@
+    type: com.alibaba.druid.pool.DruidDataSource
+    #druid连接池配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 100
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    # 配置监控统计拦截的filters,去掉监控界面sql无法统计，‘wall’用于防火墙
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    userGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  #cas服务端的地址
+cas:
+  server-url-prefix: http://localhost:8089/cas
+  #cas服务端的登录地址
+  server-login-url: http://localhost:8089/cas/login
+  #当前服务器的地址(客户端)
+  client-host-url: http://localhost:8090
+  #Ticket校验器使用Cas30ProxyReceivingTicketValidationFilter
+  validation-type: cas3
+
+
+  # 在访问cas服务器登录之后，会返回一个ticket。由该地址接收
+shiro:
+  casFilterUrlPattern: /shiro-cas
+  # cas服务前缀
+  casServerUrlPrefix: localhost:8089/cas
+  # shiro服务前缀
+  shiroServerUrlPrefix: http://localhost:${server.port}${server.servlet.context-path}
+  # 登录地址
+  loginUrl: ${shiro.casServerUrlPrefix}/login?service=${shiro.shiroServerUrlPrefix}${shiro.casFilterUrlPattern}
+  # 登出地址
+  logoutUrl: ${shiro.casServerUrlPrefix}/logout?service=${shiro.shiroServerUrlPrefix}${shiro.casFilterUrlPattern}
+
